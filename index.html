@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOUDMEDIA.CA — Making Canadian Rock & Metal Louder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -22,11 +23,12 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+a { color: inherit; text-decoration: none; }
 
 body {
-background: var(–black);
+background: #080808;
 color: var(–white);
-font-family: ‘Barlow’, sans-serif;
+font-family: ‘Barlow’, Arial, sans-serif;
 font-weight: 300;
 overflow-x: hidden;
 cursor: crosshair;
@@ -40,6 +42,7 @@ width: 100vw;
 height: 100vh;
 z-index: 0;
 pointer-events: none;
+background: #080808;
 }
 
 /* noise grain overlay */
@@ -74,7 +77,7 @@ backdrop-filter: blur(12px);
 border-bottom: 1px solid var(–border);
 transition: padding 0.3s;
 }
-.nav-logo { font-family: ‘Black Han Sans’, sans-serif; font-size: 1.6rem; letter-spacing: 0.15em; color: var(–white); text-decoration: none; }
+.nav-logo { font-family: ‘Black Han Sans’, Impact, sans-serif; font-size: 1.6rem; letter-spacing: 0.15em; color: var(–white); text-decoration: none; }
 .nav-logo span { color: var(–red); }
 .nav-links { display: flex; gap: 36px; list-style: none; }
 .nav-links a { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(–muted); text-decoration: none; transition: color 0.2s; }
@@ -120,7 +123,7 @@ background: transparent;
 
 /* ─── MUSIC PLAYER ─── */
 #music-player {
-background: rgba(14,14,14,0.85);
+background: rgba(14,14,14,0.97);
 backdrop-filter: blur(10px);
 padding: 60px 48px;
 display: flex; align-items: center; justify-content: center;
@@ -158,7 +161,7 @@ animation: spin 4s linear infinite;
 .player-waveform.paused .wave-bar { animation-play-state: paused; opacity: 0.3; }
 
 /* ─── DISCOVERY ─── */
-#discovery { background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; padding: 60px 48px; overflow: hidden; }
+#discovery { background: rgba(0,0,0,0.97); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; padding: 60px 48px; overflow: hidden; }
 .discovery-inner { max-width: 700px; width: 100%; }
 .discovery-label { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(–red); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
 .discovery-label::before { content: ‘’; width: 32px; height: 1px; background: var(–red); }
@@ -173,7 +176,8 @@ section { padding: 100px 48px; }
 .section-title { font-family: ‘Black Han Sans’, sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; }
 
 /* sections get translucent backgrounds so canvas shows through subtly */
-#story { background: rgba(14,14,14,0.88); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+/* sections — dark enough to always read as black/dark even if canvas flickers */
+#story { background: rgba(14,14,14,0.97); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .story-text p { font-size: 1.05rem; line-height: 1.8; color: #bbb; margin-top: 24px; }
 .story-text p + p { margin-top: 16px; }
 .story-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
@@ -183,7 +187,7 @@ section { padding: 100px 48px; }
 .stat-num span { color: var(–red); }
 .stat-label { font-family: ‘Barlow Condensed’, sans-serif; font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(–muted); margin-top: 8px; }
 
-#what { background: rgba(8,8,8,0.85); }
+#what { background: rgba(8,8,8,0.97); }
 .what-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; }
 .tabs { display: flex; gap: 4px; }
 .tab { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; padding: 10px 20px; border: 1px solid var(–border); background: transparent; color: var(–muted); cursor: pointer; transition: all 0.2s; }
@@ -196,7 +200,7 @@ section { padding: 100px 48px; }
 .feature-title { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
 .feature-desc { font-size: 0.9rem; line-height: 1.7; color: #999; }
 
-#announcements { background: rgba(14,14,14,0.88); }
+#announcements { background: rgba(14,14,14,0.97); }
 .announce-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2px; margin-top: 48px; }
 .announce-card { background: var(–panel); padding: 40px 36px; position: relative; overflow: hidden; transition: all 0.3s; cursor: pointer; }
 .announce-card:hover { background: #1a1a1a; }
@@ -207,7 +211,7 @@ section { padding: 100px 48px; }
 .announce-body { font-size: 0.85rem; color: #999; line-height: 1.6; }
 .announce-date { font-family: ‘Barlow Condensed’, sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; color: var(–muted); margin-top: 20px; padding-top: 16px; border-top: 1px solid var(–border); }
 
-#tickets { background: rgba(8,8,8,0.85); }
+#tickets { background: rgba(8,8,8,0.97); }
 .tickets-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 48px; }
 .ticket-card { background: var(–panel); padding: 36px; position: relative; overflow: hidden; }
 .ticket-card::after { content: ‘’; position: absolute; right: -1px; top: 50%; transform: translateY(-50%); width: 20px; height: 40px; background: rgba(8,8,8,0.9); border-radius: 20px 0 0 20px; border: 1px solid var(–border); border-right: none; }
@@ -748,9 +752,11 @@ section { padding: 72px 20px; }
 
   /* ── RENDER LOOP ── */
   function frame() {
-    // clear with slight trail fade
-    ctx.clearRect(0,0,W,H);
-    ctx.fillStyle = 'rgba(8,8,8,0.22)';
+    // always paint solid dark base first so canvas is never white
+    ctx.fillStyle = '#080808';
+    ctx.fillRect(0,0,W,H);
+    // motion-blur trail layer
+    ctx.fillStyle = 'rgba(8,8,8,0.55)';
     ctx.fillRect(0,0,W,H);
 
     // ambient red radial glow
