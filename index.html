@@ -34,7 +34,6 @@ overflow-x: hidden;
 cursor: crosshair;
 }
 
-/* ─── GLOBAL ANIMATED CANVAS ─── */
 #bg-canvas {
 position: fixed;
 top: 0; left: 0;
@@ -45,7 +44,6 @@ pointer-events: none;
 background: #080808;
 }
 
-/* noise grain overlay */
 body::before {
 content: ‘’;
 position: fixed;
@@ -56,14 +54,12 @@ z-index: 9999;
 opacity: 0.45;
 }
 
-/* everything above canvas */
 nav, #logo-banner, #hero, #music-player, #discovery,
 #story, #what, #announcements, #tickets, #vision, footer {
 position: relative;
 z-index: 1;
 }
 
-/* ─── NAV ─── */
 nav {
 position: fixed;
 top: 0; left: 0; right: 0;
@@ -85,18 +81,16 @@ transition: padding 0.3s;
 .nav-cta { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; background: var(–red); color: var(–white); border: none; padding: 10px 22px; cursor: pointer; transition: background 0.2s; text-decoration: none; }
 .nav-cta:hover { background: var(–accent); }
 
-/* ─── LOGO BANNER ─── */
 #logo-banner {
 width: 100%;
-background: rgba(0,0,0,0.6);
+background: #000;
 display: flex; justify-content: center; align-items: center;
 padding: 0; overflow: hidden;
 margin-top: 0;
-padding-top: 62px; /* offset fixed nav */
+padding-top: 62px;
 }
 #logo-banner img { width: 100%; max-height: 420px; object-fit: cover; object-position: center center; display: block; }
 
-/* ─── HERO ─── */
 #hero {
 display: flex; flex-direction: column; justify-content: flex-end;
 padding: 60px 48px 80px;
@@ -121,7 +115,6 @@ background: transparent;
 .ticker-item { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; padding: 0 40px; color: var(–white); }
 .ticker-item::after { content: ‘//’; margin-left: 40px; opacity: 0.5; }
 
-/* ─── MUSIC PLAYER ─── */
 #music-player {
 background: rgba(14,14,14,0.97);
 backdrop-filter: blur(10px);
@@ -160,7 +153,6 @@ animation: spin 4s linear infinite;
 .wave-bar:nth-child(1){height:8px;animation-delay:0s} .wave-bar:nth-child(2){height:20px;animation-delay:.1s} .wave-bar:nth-child(3){height:14px;animation-delay:.2s} .wave-bar:nth-child(4){height:28px;animation-delay:.3s} .wave-bar:nth-child(5){height:10px;animation-delay:.4s} .wave-bar:nth-child(6){height:22px;animation-delay:.15s} .wave-bar:nth-child(7){height:16px;animation-delay:.25s}
 .player-waveform.paused .wave-bar { animation-play-state: paused; opacity: 0.3; }
 
-/* ─── DISCOVERY ─── */
 #discovery { background: rgba(0,0,0,0.97); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; padding: 60px 48px; overflow: hidden; }
 .discovery-inner { max-width: 700px; width: 100%; }
 .discovery-label { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(–red); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
@@ -169,14 +161,11 @@ animation: spin 4s linear infinite;
 .discovery-img-wrap img { width: 100%; display: block; transition: transform 0.5s ease; }
 .discovery-img-wrap:hover img { transform: scale(1.02); }
 
-/* ─── SECTION DEFAULTS ─── */
 section { padding: 100px 48px; }
 .section-tag { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 600; font-size: 0.7rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(–red); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
 .section-tag::before { content: ‘’; width: 32px; height: 1px; background: var(–red); }
 .section-title { font-family: ‘Black Han Sans’, sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; }
 
-/* sections get translucent backgrounds so canvas shows through subtly */
-/* sections — dark enough to always read as black/dark even if canvas flickers */
 #story { background: rgba(14,14,14,0.97); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .story-text p { font-size: 1.05rem; line-height: 1.8; color: #bbb; margin-top: 24px; }
 .story-text p + p { margin-top: 16px; }
@@ -246,7 +235,6 @@ footer { background: rgba(5,5,5,0.96); padding: 60px 48px 36px; border-top: 1px 
 .social-links a { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(–muted); text-decoration: none; transition: color 0.2s; }
 .social-links a:hover { color: var(–red); }
 
-/* ─── ANIMATIONS ─── */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -278,17 +266,11 @@ section { padding: 72px 20px; }
 </head>
 <body>
 
-<!-- ANIMATED BACKGROUND CANVAS -->
-
 <canvas id="bg-canvas"></canvas>
-
-<!-- AUDIO -->
 
 <audio id="site-audio" loop preload="auto">
   <source src="e795d213ce8ac6638a0a34426e7b71ba.m4a" type="audio/mp4">
 </audio>
-
-<!-- NAV -->
 
 <nav>
   <a href="#" class="nav-logo">LOUD<span>MEDIA</span>.CA</a>
@@ -302,17 +284,13 @@ section { padding: 72px 20px; }
   <a href="#" class="nav-cta">Join Movement</a>
 </nav>
 
-<!-- LOGO BANNER -->
-
 <div id="logo-banner">
-  <img src="IMG_0028.jpeg" alt="LoudMedia.ca — Making Canadian Rock & Metal Louder">
+  <img src="IMG_0028.jpeg" alt="LoudMedia.ca — Making Canadian Rock &amp; Metal Louder">
 </div>
-
-<!-- HERO -->
 
 <section id="hero">
   <div class="hero-scanlines"></div>
-  <div class="hero-label">Canada's Independent Rock & Metal Ecosystem</div>
+  <div class="hero-label">Canada's Independent Rock &amp; Metal Ecosystem</div>
   <h1 class="hero-title">
     LOUD
     <span class="line2">MEDIA</span>
@@ -325,12 +303,10 @@ section { padding: 72px 20px; }
   </div>
   <div class="hero-ticker">
     <div class="ticker-track">
-      <span class="ticker-item">Canadian Rock</span><span class="ticker-item">Independent Metal</span><span class="ticker-item">Underground Scene</span><span class="ticker-item">Alberta & Beyond</span><span class="ticker-item">Street Teams</span><span class="ticker-item">Band Submissions Open</span><span class="ticker-item">Canadian Rock</span><span class="ticker-item">Independent Metal</span><span class="ticker-item">Underground Scene</span><span class="ticker-item">Alberta & Beyond</span><span class="ticker-item">Street Teams</span><span class="ticker-item">Band Submissions Open</span>
+      <span class="ticker-item">Canadian Rock</span><span class="ticker-item">Independent Metal</span><span class="ticker-item">Underground Scene</span><span class="ticker-item">Alberta &amp; Beyond</span><span class="ticker-item">Street Teams</span><span class="ticker-item">Band Submissions Open</span><span class="ticker-item">Canadian Rock</span><span class="ticker-item">Independent Metal</span><span class="ticker-item">Underground Scene</span><span class="ticker-item">Alberta &amp; Beyond</span><span class="ticker-item">Street Teams</span><span class="ticker-item">Band Submissions Open</span>
     </div>
   </div>
 </section>
-
-<!-- MUSIC PLAYER -->
 
 <div id="music-player">
   <div class="disc-wrap">
@@ -350,8 +326,6 @@ section { padding: 72px 20px; }
   </div>
 </div>
 
-<!-- DISCOVERY MODE -->
-
 <div id="discovery">
   <div class="discovery-inner reveal">
     <div class="discovery-label">Canadian Rock Radar</div>
@@ -360,8 +334,6 @@ section { padding: 72px 20px; }
     </div>
   </div>
 </div>
-
-<!-- STORY -->
 
 <section id="story">
   <div class="story-text reveal">
@@ -379,8 +351,6 @@ section { padding: 72px 20px; }
   </div>
 </section>
 
-<!-- WHAT WE DO -->
-
 <section id="what">
   <div class="what-header">
     <div>
@@ -395,8 +365,8 @@ section { padding: 72px 20px; }
   </div>
   <div id="panel-bands" class="panel active">
     <div class="feature-card reveal"><span class="feature-icon">🎸</span><div class="feature-title">Professional Media Kits</div><p class="feature-desc">Build polished, label-quality media kits that get you taken seriously by venues, promoters, and press.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">📡</span><div class="feature-title">Features & Playlists</div><p class="feature-desc">Submit your music for editorial features, curated playlists, and scene spotlights that reach real fans.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">💰</span><div class="feature-title">Grants & Funding</div><p class="feature-desc">Access curated guides on Canadian music grants, funding opportunities, and resources usually locked behind labels.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">📡</span><div class="feature-title">Features &amp; Playlists</div><p class="feature-desc">Submit your music for editorial features, curated playlists, and scene spotlights that reach real fans.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">💰</span><div class="feature-title">Grants &amp; Funding</div><p class="feature-desc">Access curated guides on Canadian music grants, funding opportunities, and resources usually locked behind labels.</p></div>
     <div class="feature-card reveal"><span class="feature-icon">📈</span><div class="feature-title">Visibility Tracking</div><p class="feature-desc">Track your engagement, reach, and momentum across the LoudMedia ecosystem with real analytics.</p></div>
     <div class="feature-card reveal"><span class="feature-icon">🤝</span><div class="feature-title">Connect with Street Teams</div><p class="feature-desc">Get matched with dedicated fans who will promote your shows, share your music, and build your local following.</p></div>
     <div class="feature-card reveal"><span class="feature-icon">🚀</span><div class="feature-title">Premium Promo Tools</div><p class="feature-desc">Unlock promo templates, social toolkits, and campaign guides designed for the heavy music space.</p></div>
@@ -404,22 +374,20 @@ section { padding: 72px 20px; }
   <div id="panel-fans" class="panel">
     <div class="feature-card reveal"><span class="feature-icon">🔍</span><div class="feature-title">Discover New Bands</div><p class="feature-desc">Find emerging Canadian rock and metal acts before they blow up.</p></div>
     <div class="feature-card reveal"><span class="feature-icon">🎵</span><div class="feature-title">Underground Playlists</div><p class="feature-desc">Dig into curated playlists of underground releases, genre-specific drops, and scene highlights.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">📍</span><div class="feature-title">Local Shows & Festivals</div><p class="feature-desc">Never miss a local show again — discover gigs, festivals, and scene events happening near you.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">🗞️</span><div class="feature-title">Scene News & Interviews</div><p class="feature-desc">Stay up to date with scene news, band interviews, album reviews, and exclusive underground content.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">📍</span><div class="feature-title">Local Shows &amp; Festivals</div><p class="feature-desc">Never miss a local show again — discover gigs, festivals, and scene events happening near you.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🗞️</span><div class="feature-title">Scene News &amp; Interviews</div><p class="feature-desc">Stay up to date with scene news, band interviews, album reviews, and exclusive underground content.</p></div>
     <div class="feature-card reveal"><span class="feature-icon">🎮</span><div class="feature-title">Interactive Features</div><p class="feature-desc">Engage through games, polls, community challenges, and interactive content.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">💬</span><div class="feature-title">Community & Discord</div><p class="feature-desc">Join discussions, Discord events, and a real community of Canadian heavy music fans.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">💬</span><div class="feature-title">Community &amp; Discord</div><p class="feature-desc">Join discussions, Discord events, and a real community of Canadian heavy music fans.</p></div>
   </div>
   <div id="panel-street" class="panel">
     <div class="feature-card reveal"><span class="feature-icon">📣</span><div class="feature-title">Social Sharing Campaigns</div><p class="feature-desc">Get access to coordinated campaigns to amplify bands you love.</p></div>
     <div class="feature-card reveal"><span class="feature-icon">🎟️</span><div class="feature-title">Show Promotion</div><p class="feature-desc">Help promote local shows, sell tickets, and build buzz in your city.</p></div>
-    <div class="feature-card reveal"><span class="feature-icon">🏆</span><div class="feature-title">Earn Rewards & Perks</div><p class="feature-desc">Contributors earn recognition, exclusive rewards, merch, and VIP perks.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🏆</span><div class="feature-title">Earn Rewards &amp; Perks</div><p class="feature-desc">Contributors earn recognition, exclusive rewards, merch, and VIP perks.</p></div>
     <div class="feature-card reveal"><span class="feature-icon">🎯</span><div class="feature-title">Community Missions</div><p class="feature-desc">Complete missions, unlock achievements, and level up your impact.</p></div>
     <div class="feature-card reveal"><span class="feature-icon">📲</span><div class="feature-title">Content Amplification</div><p class="feature-desc">Help bands go viral with coordinated content drops and fan-driven amplification tools.</p></div>
     <div class="feature-card reveal"><span class="feature-icon">⚡</span><div class="feature-title">Real Influence</div><p class="feature-desc">Your activity shapes what gets featured. Active street team members have direct influence on the platform.</p></div>
   </div>
 </section>
-
-<!-- ANNOUNCEMENTS -->
 
 <section id="announcements">
   <div class="section-tag reveal">Latest News</div>
@@ -446,8 +414,6 @@ section { padding: 72px 20px; }
   </div>
 </section>
 
-<!-- TICKETS -->
-
 <section id="tickets">
   <div class="section-tag reveal">Upcoming Shows</div>
   <h2 class="section-title reveal">Get Tickets</h2>
@@ -470,13 +436,11 @@ section { padding: 72px 20px; }
       <div class="ticket-venue">Dickens Pub</div>
       <div class="ticket-city">Calgary, AB</div>
       <div class="ticket-date"><div class="ticket-day">05</div><div class="ticket-month-year">July<br>2025</div></div>
-      <div class="ticket-acts">Heavy Summer Series — Rock & Metal Festival</div>
+      <div class="ticket-acts">Heavy Summer Series — Rock &amp; Metal Festival</div>
       <button class="ticket-btn">Get Tickets</button>
     </div>
   </div>
 </section>
-
-<!-- VISION -->
 
 <section id="vision">
   <div class="vision-content">
@@ -493,13 +457,11 @@ section { padding: 72px 20px; }
   </div>
 </section>
 
-<!-- FOOTER -->
-
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
       <div class="logo">LOUD<span>MEDIA</span>.CA</div>
-      <p>Canada's Independent Rock & Metal Ecosystem. Building the digital backbone for independent Canadian heavy music — starting in Alberta, expanding nationwide.</p>
+      <p>Canada's Independent Rock &amp; Metal Ecosystem. Building the digital backbone for independent Canadian heavy music — starting in Alberta, expanding nationwide.</p>
     </div>
     <div class="footer-col">
       <h4>Platform</h4>
@@ -507,7 +469,7 @@ section { padding: 72px 20px; }
     </div>
     <div class="footer-col">
       <h4>Scene</h4>
-      <a href="#">News & Features</a><a href="#">Upcoming Shows</a><a href="#">Playlists</a><a href="#">Interviews</a><a href="#">Grants Guide</a>
+      <a href="#">News &amp; Features</a><a href="#">Upcoming Shows</a><a href="#">Playlists</a><a href="#">Interviews</a><a href="#">Grants Guide</a>
     </div>
     <div class="footer-col">
       <h4>Community</h4>
@@ -515,7 +477,7 @@ section { padding: 72px 20px; }
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 LoudMedia.ca — Making Canadian Rock & Metal Louder</p>
+    <p>© 2025 LoudMedia.ca — Making Canadian Rock &amp; Metal Louder</p>
     <div class="social-links">
       <a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Discord</a><a href="#">Facebook</a>
     </div>
@@ -523,10 +485,6 @@ section { padding: 72px 20px; }
 </footer>
 
 <script>
-/* ══════════════════════════════════════════
-   ANIMATED BACKGROUND — Canvas Engine
-   Particles · Lightning · Sound Rings · Embers
-   ══════════════════════════════════════════ */
 (function() {
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
@@ -541,12 +499,10 @@ section { padding: 72px 20px; }
 
   window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 
-  /* ── Colour helpers ── */
   const RED   = 'rgba(232,0,13,';
   const DKRED = 'rgba(154,0,9,';
   const WITE  = 'rgba(240,237,232,';
 
-  /* ══ 1. FLOATING PARTICLES ══ */
   class Particle {
     constructor() { this.reset(true); }
     reset(init) {
@@ -560,7 +516,6 @@ section { padding: 72px 20px; }
       this.color = Math.random() > 0.6 ? RED : DKRED;
     }
     update() {
-      // subtle attraction toward mouse
       const dx = mouse.x - this.x, dy = mouse.y - this.y;
       const dist = Math.sqrt(dx*dx+dy*dy);
       if (dist < 200) {
@@ -583,7 +538,6 @@ section { padding: 72px 20px; }
     }
   }
 
-  /* ══ 2. EMBERS (slow drifting sparks) ══ */
   class Ember {
     constructor() { this.reset(true); }
     reset(init) {
@@ -594,7 +548,7 @@ section { padding: 72px 20px; }
       this.vy = -(Math.random() * 1.5 + 0.3);
       this.life = 0;
       this.maxLife = Math.random() * 180 + 80;
-      this.hue = Math.random() > 0.5 ? 0 : 20; // red / orange
+      this.hue = Math.random() > 0.5 ? 0 : 20;
     }
     update() {
       this.vx += (Math.random()-0.5)*0.08;
@@ -617,7 +571,6 @@ section { padding: 72px 20px; }
     }
   }
 
-  /* ══ 3. SOUND RINGS (concentric expanding circles) ══ */
   class SoundRing {
     constructor() { this.reset(); }
     reset() {
@@ -646,12 +599,11 @@ section { padding: 72px 20px; }
     }
   }
 
-  /* ══ 4. LIGHTNING BOLTS ══ */
   class Lightning {
     constructor() { this.reset(); }
     reset() {
       this.active = false;
-      this.timer = Math.random() * 180 + 60; // frames until next bolt
+      this.timer = Math.random() * 180 + 60;
       this.segments = [];
       this.alpha = 0;
       this.fadeDir = 1;
@@ -660,20 +612,17 @@ section { padding: 72px 20px; }
       this.active = true;
       this.alpha = 1;
       this.fadeDir = -1;
-      // build jagged path from top to somewhere
       const sx = Math.random() * W;
       const sy = 0;
       const ex = sx + (Math.random()-0.5)*300;
       const ey = Math.random() * H * 0.6 + H * 0.1;
       this.segments = [];
-      let cx = sx, cy = sy;
       const steps = Math.floor(Math.random()*8+6);
       for (let i=0;i<=steps;i++) {
         const t = i/steps;
         const nx = sx + (ex-sx)*t + (Math.random()-0.5)*(120*(1-t));
         const ny = sy + (ey-sy)*t;
         this.segments.push({x:nx, y:ny});
-        cx=nx; cy=ny;
       }
     }
     update() {
@@ -687,7 +636,6 @@ section { padding: 72px 20px; }
     }
     draw() {
       if (!this.active || this.segments.length < 2) return;
-      // glow pass
       ctx.save();
       ctx.globalAlpha = this.alpha * 0.3;
       ctx.strokeStyle = RED + '1)';
@@ -698,7 +646,6 @@ section { padding: 72px 20px; }
       ctx.moveTo(this.segments[0].x, this.segments[0].y);
       for (let i=1;i<this.segments.length;i++) ctx.lineTo(this.segments[i].x, this.segments[i].y);
       ctx.stroke();
-      // core
       ctx.globalAlpha = this.alpha;
       ctx.strokeStyle = WITE + '0.9)';
       ctx.lineWidth = 1.5;
@@ -708,10 +655,9 @@ section { padding: 72px 20px; }
     }
   }
 
-  /* ══ 5. GRID PULSE LINES ══ */
   class GridLine {
     constructor(vert) {
-      this.vert = vert; // vertical or horizontal
+      this.vert = vert;
       this.pos  = Math.random() * (vert ? W : H);
       this.speed = (Math.random() * 0.3 + 0.1) * (Math.random()>0.5?1:-1);
       this.alpha = Math.random() * 0.04 + 0.01;
@@ -736,7 +682,6 @@ section { padding: 72px 20px; }
     }
   }
 
-  /* ── Init objects ── */
   const particles  = Array.from({length:120}, () => new Particle());
   const embers     = Array.from({length:60},  () => new Ember());
   const rings      = Array.from({length:12},  () => new SoundRing());
@@ -746,20 +691,15 @@ section { padding: 72px 20px; }
     ...Array.from({length:6},  () => new GridLine(false)),
   ];
 
-  /* ── Ambient red glow blob (slow drift) ── */
   let blobX = W*0.6, blobY = H*0.3;
   let blobVX = 0.4, blobVY = 0.25;
 
-  /* ── RENDER LOOP ── */
   function frame() {
-    // always paint solid dark base first so canvas is never white
     ctx.fillStyle = '#080808';
     ctx.fillRect(0,0,W,H);
-    // motion-blur trail layer
     ctx.fillStyle = 'rgba(8,8,8,0.55)';
     ctx.fillRect(0,0,W,H);
 
-    // ambient red radial glow
     blobX += blobVX; blobY += blobVY;
     if (blobX < W*0.2 || blobX > W*0.85) blobVX *= -1;
     if (blobY < H*0.1 || blobY > H*0.85) blobVY *= -1;
@@ -770,7 +710,6 @@ section { padding: 72px 20px; }
     ctx.fillStyle = blob;
     ctx.fillRect(0,0,W,H);
 
-    // draw layers
     gridLines.forEach(g => { g.update(); g.draw(); });
     rings.forEach(r  => { r.update(); r.draw(); });
     particles.forEach(p => { p.update(); p.draw(); });
@@ -782,7 +721,6 @@ section { padding: 72px 20px; }
   frame();
 })();
 
-/* ══ AUDIO / PLAYER ══ */
 const audio   = document.getElementById('site-audio');
 const disc    = document.getElementById('disc');
 const playBtn = document.getElementById('play-btn');
@@ -809,7 +747,6 @@ document.addEventListener('keydown', tryAutoplay, {once:true});
 document.addEventListener('touchstart', tryAutoplay, {once:true});
 audio.play().then(()=>{setPlaying(true);autoplayDone=true;}).catch(()=>{});
 
-/* ══ TABS ══ */
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -817,7 +754,6 @@ function switchTab(tab, el) {
   document.getElementById('panel-'+tab).classList.add('active');
 }
 
-/* ══ SCROLL REVEAL ══ */
 const observer = new IntersectionObserver((entries)=>{
   entries.forEach((entry,i)=>{
     if (entry.isIntersecting) {
@@ -828,12 +764,11 @@ const observer = new IntersectionObserver((entries)=>{
 },{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
-/* ══ NAV SHRINK ══ */
 const nav = document.querySelector('nav');
 window.addEventListener('scroll',()=>{
   nav.style.padding = window.scrollY > 60 ? '12px 48px' : '18px 48px';
 });
-</script>
+<\/script>
 
 </body>
 </html>
