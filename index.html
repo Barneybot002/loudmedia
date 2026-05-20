@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOUDMEDIA.CA — Making Canadian Rock & Metal Louder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8000D;
+    --dark-red: #9A0009;
+    --black: #080808;
+    --deep: #0E0E0E;
+    --panel: #141414;
+    --border: #2a2a2a;
+    --white: #F0EDE8;
+    --muted: #888;
+    --accent: #FF3B00;
+  }
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+background: var(–black);
+color: var(–white);
+font-family: ‘Barlow’, sans-serif;
+font-weight: 300;
+overflow-x: hidden;
+cursor: crosshair;
+}
+
+/* ─── GLOBAL ANIMATED CANVAS ─── */
+#bg-canvas {
+position: fixed;
+inset: 0;
+z-index: 0;
+pointer-events: none;
+}
+
+/* noise grain overlay */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+pointer-events: none;
+z-index: 9999;
+opacity: 0.45;
+}
+
+/* everything above canvas */
+nav, #logo-banner, #hero, #music-player, #discovery,
+#story, #what, #announcements, #tickets, #vision, footer {
+position: relative;
+z-index: 1;
+}
+
+/* ─── NAV ─── */
+nav {
+position: fixed;
+top: 0; left: 0; right: 0;
+z-index: 100;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 18px 48px;
+background: rgba(8,8,8,0.92);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid var(–border);
+transition: padding 0.3s;
+}
+.nav-logo { font-family: ‘Black Han Sans’, sans-serif; font-size: 1.6rem; letter-spacing: 0.15em; color: var(–white); text-decoration: none; }
+.nav-logo span { color: var(–red); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(–muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(–red); }
+.nav-cta { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; background: var(–red); color: var(–white); border: none; padding: 10px 22px; cursor: pointer; transition: background 0.2s; text-decoration: none; }
+.nav-cta:hover { background: var(–accent); }
+
+/* ─── LOGO BANNER ─── */
+#logo-banner {
+width: 100%;
+background: rgba(0,0,0,0.6);
+display: flex; justify-content: center; align-items: center;
+padding: 0; overflow: hidden;
+margin-top: 0;
+}
+#logo-banner img { width: 100%; max-height: 420px; object-fit: cover; object-position: center center; display: block; }
+
+/* ─── HERO ─── */
+#hero {
+min-height: 100vh;
+display: flex; flex-direction: column; justify-content: flex-end;
+padding: 0 48px 80px;
+overflow: hidden;
+background: transparent;
+}
+.hero-scanlines { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.005) 3px, rgba(255,255,255,0.005) 4px); pointer-events: none; }
+.hero-label { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(–red); margin-bottom: 24px; animation: fadeUp 0.8s ease both; }
+.hero-title { font-family: ‘Black Han Sans’, sans-serif; font-size: clamp(4.5rem, 12vw, 10rem); line-height: 0.9; letter-spacing: -0.02em; text-transform: uppercase; animation: fadeUp 0.8s 0.1s ease both; position: relative; z-index: 1; }
+.hero-title .line2 { color: var(–red); display: block; }
+.hero-title .outline { -webkit-text-stroke: 1.5px rgba(240,237,232,0.25); color: transparent; display: block; font-size: clamp(2.5rem, 7vw, 6rem); letter-spacing: 0.06em; margin-top: 8px; }
+.hero-sub { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 300; font-size: clamp(1rem, 2vw, 1.4rem); letter-spacing: 0.08em; color: var(–muted); margin-top: 28px; max-width: 560px; animation: fadeUp 0.8s 0.2s ease both; }
+.hero-actions { margin-top: 48px; display: flex; gap: 16px; animation: fadeUp 0.8s 0.3s ease both; }
+
+.btn-primary { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.3em; text-transform: uppercase; background: var(–red); color: var(–white); border: none; padding: 16px 36px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
+.btn-primary:hover { background: var(–accent); transform: translateY(-2px); }
+.btn-ghost { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.3em; text-transform: uppercase; background: transparent; color: var(–white); border: 1px solid var(–border); padding: 16px 36px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
+.btn-ghost:hover { border-color: var(–red); color: var(–red); }
+
+.hero-ticker { position: absolute; bottom: 0; left: 0; right: 0; background: var(–red); padding: 10px 0; overflow: hidden; white-space: nowrap; }
+.ticker-track { display: inline-flex; animation: ticker 30s linear infinite; }
+.ticker-item { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; padding: 0 40px; color: var(–white); }
+.ticker-item::after { content: ‘//’; margin-left: 40px; opacity: 0.5; }
+
+/* ─── MUSIC PLAYER ─── */
+#music-player {
+background: rgba(14,14,14,0.85);
+backdrop-filter: blur(10px);
+padding: 60px 48px;
+display: flex; align-items: center; justify-content: center;
+gap: 56px;
+border-top: 1px solid var(–border);
+border-bottom: 1px solid var(–border);
+}
+.disc-wrap { position: relative; width: 180px; height: 180px; flex-shrink: 0; }
+.disc {
+width: 180px; height: 180px; border-radius: 50%;
+background: radial-gradient(circle at 50% 50%,
+#1a1a1a 0%, #1a1a1a 18%, #2a2a2a 18%, #2a2a2a 20%,
+#111 20%, #111 38%, #1c1c1c 38%, #1c1c1c 40%,
+#0d0d0d 40%, #0d0d0d 58%, #1a1a1a 58%, #1a1a1a 60%,
+#0a0a0a 60%, #0a0a0a 100%);
+box-shadow: 0 0 0 4px #2a2a2a, 0 0 40px rgba(232,0,13,0.3), 0 8px 32px rgba(0,0,0,0.8);
+animation: spin 4s linear infinite;
+}
+.disc.paused { animation-play-state: paused; }
+.disc::before { content: ‘’; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 36px; height: 36px; background: radial-gradient(circle, #E8000D 0%, #9A0009 60%, #222 100%); border-radius: 50%; z-index: 2; box-shadow: 0 0 10px rgba(232,0,13,0.5); }
+.disc::after { content: ‘’; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 8px; height: 8px; background: #fff; border-radius: 50%; z-index: 3; }
+.disc-shine { position: absolute; top: 10%; left: 20%; width: 30%; height: 50%; background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%); border-radius: 50%; pointer-events: none; z-index: 1; }
+.player-info { flex: 1; max-width: 400px; }
+.player-label { font-family: ‘Barlow Condensed’, sans-serif; font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(–red); margin-bottom: 10px; }
+.player-song { font-family: ‘Black Han Sans’, sans-serif; font-size: 1.9rem; line-height: 1; text-transform: uppercase; margin-bottom: 4px; }
+.player-artist { font-family: ‘Barlow Condensed’, sans-serif; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(–muted); margin-bottom: 28px; }
+.player-controls { display: flex; align-items: center; gap: 16px; }
+.ctrl-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(–border); background: var(–panel); color: var(–white); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+.ctrl-btn.play-btn { width: 62px; height: 62px; background: var(–red); border-color: var(–red); font-size: 1.5rem; }
+.ctrl-btn:hover { border-color: var(–red); transform: scale(1.08); }
+.ctrl-btn.play-btn:hover { background: var(–accent); border-color: var(–accent); }
+.player-waveform { display: flex; align-items: center; gap: 3px; height: 32px; margin-left: 8px; }
+.wave-bar { width: 3px; background: var(–red); border-radius: 2px; animation: wave 1s ease-in-out infinite; opacity: 0.8; }
+.wave-bar:nth-child(1){height:8px;animation-delay:0s} .wave-bar:nth-child(2){height:20px;animation-delay:.1s} .wave-bar:nth-child(3){height:14px;animation-delay:.2s} .wave-bar:nth-child(4){height:28px;animation-delay:.3s} .wave-bar:nth-child(5){height:10px;animation-delay:.4s} .wave-bar:nth-child(6){height:22px;animation-delay:.15s} .wave-bar:nth-child(7){height:16px;animation-delay:.25s}
+.player-waveform.paused .wave-bar { animation-play-state: paused; opacity: 0.3; }
+
+/* ─── DISCOVERY ─── */
+#discovery { background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; padding: 60px 48px; overflow: hidden; }
+.discovery-inner { max-width: 700px; width: 100%; }
+.discovery-label { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(–red); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+.discovery-label::before { content: ‘’; width: 32px; height: 1px; background: var(–red); }
+.discovery-img-wrap { border: 2px solid var(–border); box-shadow: 0 0 60px rgba(232,0,13,0.15), 0 20px 60px rgba(0,0,0,0.8); overflow: hidden; border-radius: 2px; }
+.discovery-img-wrap img { width: 100%; display: block; transition: transform 0.5s ease; }
+.discovery-img-wrap:hover img { transform: scale(1.02); }
+
+/* ─── SECTION DEFAULTS ─── */
+section { padding: 100px 48px; }
+.section-tag { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 600; font-size: 0.7rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(–red); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+.section-tag::before { content: ‘’; width: 32px; height: 1px; background: var(–red); }
+.section-title { font-family: ‘Black Han Sans’, sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; }
+
+/* sections get translucent backgrounds so canvas shows through subtly */
+#story { background: rgba(14,14,14,0.88); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.story-text p { font-size: 1.05rem; line-height: 1.8; color: #bbb; margin-top: 24px; }
+.story-text p + p { margin-top: 16px; }
+.story-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.stat-card { background: var(–panel); padding: 36px 28px; border-top: 3px solid var(–red); position: relative; overflow: hidden; }
+.stat-card::before { content: ‘’; position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: var(–red); opacity: 0.05; clip-path: polygon(100% 0, 0 0, 100% 100%); }
+.stat-num { font-family: ‘Black Han Sans’, sans-serif; font-size: 3.5rem; color: var(–white); line-height: 1; }
+.stat-num span { color: var(–red); }
+.stat-label { font-family: ‘Barlow Condensed’, sans-serif; font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(–muted); margin-top: 8px; }
+
+#what { background: rgba(8,8,8,0.85); }
+.what-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; }
+.tabs { display: flex; gap: 4px; }
+.tab { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; padding: 10px 20px; border: 1px solid var(–border); background: transparent; color: var(–muted); cursor: pointer; transition: all 0.2s; }
+.tab.active, .tab:hover { background: var(–red); border-color: var(–red); color: var(–white); }
+.panel { display: none; }
+.panel.active { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.feature-card { background: var(–panel); padding: 44px 36px; position: relative; overflow: hidden; transition: transform 0.3s; border-bottom: 3px solid transparent; }
+.feature-card:hover { transform: translateY(-4px); border-bottom-color: var(–red); }
+.feature-icon { font-size: 2rem; margin-bottom: 20px; display: block; }
+.feature-title { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+.feature-desc { font-size: 0.9rem; line-height: 1.7; color: #999; }
+
+#announcements { background: rgba(14,14,14,0.88); }
+.announce-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2px; margin-top: 48px; }
+.announce-card { background: var(–panel); padding: 40px 36px; position: relative; overflow: hidden; transition: all 0.3s; cursor: pointer; }
+.announce-card:hover { background: #1a1a1a; }
+.announce-card.featured { display: flex; flex-direction: column; justify-content: flex-end; min-height: 380px; background: linear-gradient(to top, rgba(8,8,8,0.95) 40%, rgba(8,8,8,0.3) 100%), linear-gradient(135deg, var(–dark-red), #1a0000); border-left: 4px solid var(–red); }
+.announce-tag { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(–red); margin-bottom: 12px; }
+.announce-title { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 1.4rem; line-height: 1.2; text-transform: uppercase; margin-bottom: 12px; }
+.announce-card.featured .announce-title { font-size: 2rem; }
+.announce-body { font-size: 0.85rem; color: #999; line-height: 1.6; }
+.announce-date { font-family: ‘Barlow Condensed’, sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; color: var(–muted); margin-top: 20px; padding-top: 16px; border-top: 1px solid var(–border); }
+
+#tickets { background: rgba(8,8,8,0.85); }
+.tickets-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 48px; }
+.ticket-card { background: var(–panel); padding: 36px; position: relative; overflow: hidden; }
+.ticket-card::after { content: ‘’; position: absolute; right: -1px; top: 50%; transform: translateY(-50%); width: 20px; height: 40px; background: rgba(8,8,8,0.9); border-radius: 20px 0 0 20px; border: 1px solid var(–border); border-right: none; }
+.ticket-venue { font-family: ‘Black Han Sans’, sans-serif; font-size: 1.8rem; text-transform: uppercase; margin-bottom: 8px; }
+.ticket-city { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(–red); margin-bottom: 24px; }
+.ticket-date { display: flex; gap: 16px; align-items: center; margin-bottom: 24px; }
+.ticket-day { font-family: ‘Black Han Sans’, sans-serif; font-size: 3.5rem; line-height: 1; color: var(–white); }
+.ticket-month-year { font-family: ‘Barlow Condensed’, sans-serif; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(–muted); }
+.ticket-acts { font-family: ‘Barlow Condensed’, sans-serif; font-size: 0.8rem; letter-spacing: 0.1em; color: #aaa; margin-bottom: 28px; text-transform: uppercase; }
+.ticket-btn { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; background: var(–red); color: var(–white); border: none; padding: 12px 28px; cursor: pointer; width: 100%; transition: background 0.2s; clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%); }
+.ticket-btn:hover { background: var(–accent); }
+
+#vision { background: rgba(200,0,10,0.92); color: var(–white); text-align: center; padding: 120px 48px; position: relative; overflow: hidden; }
+#vision::before { content: ‘LOUD’; position: absolute; font-family: ‘Black Han Sans’, sans-serif; font-size: 30vw; color: rgba(0,0,0,0.15); top: 50%; left: 50%; transform: translate(-50%,-50%); white-space: nowrap; pointer-events: none; letter-spacing: -0.05em; }
+.vision-content { position: relative; z-index: 1; }
+.vision-title { font-family: ‘Black Han Sans’, sans-serif; font-size: clamp(3rem, 7vw, 7rem); line-height: 0.9; text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 40px; }
+.vision-pillars { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; margin-bottom: 60px; }
+.pillar { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.4em; text-transform: uppercase; opacity: 0.85; }
+.pillar::before { content: ’▶ ’; opacity: 0.6; }
+
+footer { background: rgba(5,5,5,0.96); padding: 60px 48px 36px; border-top: 1px solid var(–border); }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-brand .logo { font-family: ‘Black Han Sans’, sans-serif; font-size: 2rem; letter-spacing: 0.1em; }
+.footer-brand .logo span { color: var(–red); }
+.footer-brand p { font-size: 0.85rem; color: var(–muted); line-height: 1.7; margin-top: 16px; }
+.footer-col h4 { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(–muted); margin-bottom: 20px; }
+.footer-col a { display: block; font-size: 0.9rem; color: #aaa; text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+.footer-col a:hover { color: var(–red); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid var(–border); }
+.footer-bottom p { font-family: ‘Barlow Condensed’, sans-serif; font-size: 0.75rem; letter-spacing: 0.15em; color: var(–muted); text-transform: uppercase; }
+.social-links { display: flex; gap: 16px; }
+.social-links a { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(–muted); text-decoration: none; transition: color 0.2s; }
+.social-links a:hover { color: var(–red); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes wave { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.3); } }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+nav { padding: 16px 20px; }
+.nav-links { display: none; }
+section { padding: 72px 20px; }
+#hero { padding: 0 20px 100px; }
+#story { grid-template-columns: 1fr; gap: 48px; }
+.what-header { flex-direction: column; align-items: flex-start; gap: 24px; }
+.panel.active { grid-template-columns: 1fr; }
+.announce-grid { grid-template-columns: 1fr; }
+.tickets-grid { grid-template-columns: 1fr; }
+.footer-top { grid-template-columns: 1fr; gap: 32px; }
+.footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+.vision-pillars { gap: 24px; }
+#music-player { flex-direction: column; gap: 32px; padding: 48px 20px; text-align: center; }
+.player-controls { justify-content: center; }
+#discovery { padding: 40px 20px; }
+#logo-banner img { max-height: 260px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- ANIMATED BACKGROUND CANVAS -->
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- AUDIO -->
+
+<audio id="site-audio" loop preload="auto">
+  <source src="e795d213ce8ac6638a0a34426e7b71ba.m4a" type="audio/mp4">
+</audio>
+
+<!-- NAV -->
+
+<nav>
+  <a href="#" class="nav-logo">LOUD<span>MEDIA</span>.CA</a>
+  <ul class="nav-links">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#what">For Bands</a></li>
+    <li><a href="#announcements">News</a></li>
+    <li><a href="#tickets">Tickets</a></li>
+    <li><a href="#vision">Vision</a></li>
+  </ul>
+  <a href="#" class="nav-cta">Join Movement</a>
+</nav>
+
+<!-- LOGO BANNER -->
+
+<div id="logo-banner" style="padding-top:62px;">
+  <img src="IMG_0028.jpeg" alt="LoudMedia.ca — Making Canadian Rock & Metal Louder">
+</div>
+
+<!-- HERO -->
+
+<section id="hero">
+  <div class="hero-scanlines"></div>
+  <div class="hero-label">Canada's Independent Rock & Metal Ecosystem</div>
+  <h1 class="hero-title">
+    LOUD
+    <span class="line2">MEDIA</span>
+    <span class="outline">MAKING CANADA LOUDER</span>
+  </h1>
+  <p class="hero-sub">A connected home where bands grow, fans discover, and street teams amplify the underground scene together. For Bands. For Fans. For The Scene.</p>
+  <div class="hero-actions">
+    <a href="#" class="btn-primary">Join the Movement</a>
+    <a href="#" class="btn-ghost">Submit Your Band</a>
+  </div>
+  <div class="hero-ticker">
+    <div class="ticker-track">
+      <span class="ticker-item">Canadian Rock</span><span class="ticker-item">Independent Metal</span><span class="ticker-item">Underground Scene</span><span class="ticker-item">Alberta & Beyond</span><span class="ticker-item">Street Teams</span><span class="ticker-item">Band Submissions Open</span><span class="ticker-item">Canadian Rock</span><span class="ticker-item">Independent Metal</span><span class="ticker-item">Underground Scene</span><span class="ticker-item">Alberta & Beyond</span><span class="ticker-item">Street Teams</span><span class="ticker-item">Band Submissions Open</span>
+    </div>
+  </div>
+</section>
+
+<!-- MUSIC PLAYER -->
+
+<div id="music-player">
+  <div class="disc-wrap">
+    <div class="disc" id="disc"></div>
+    <div class="disc-shine"></div>
+  </div>
+  <div class="player-info">
+    <div class="player-label">🎵 Now Playing</div>
+    <div class="player-song">Kiss Alive III</div>
+    <div class="player-artist">KISS — Featured on LoudMedia.ca</div>
+    <div class="player-controls">
+      <button class="ctrl-btn play-btn" id="play-btn" onclick="togglePlay()">▶</button>
+      <div class="player-waveform" id="waveform">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCOVERY MODE -->
+
+<div id="discovery">
+  <div class="discovery-inner reveal">
+    <div class="discovery-label">Canadian Rock Radar</div>
+    <div class="discovery-img-wrap">
+      <img src="IMG_0035.jpeg" alt="Discovery Mode — LoudMedia.ca Canadian Rock Radar with Dirt Donkey">
+    </div>
+  </div>
+</div>
+
+<!-- STORY -->
+
+<section id="story">
+  <div class="story-text reveal">
+    <div class="section-tag">The Story</div>
+    <h2 class="section-title">Built for the Bands the Industry Overlooks</h2>
+    <p>Canadian rock and metal has always had a problem: incredible bands, fragmented support. Too many artists are buried under algorithms, struggling to access media exposure, promotion tools, grants, and real community support.</p>
+    <p>LoudMedia.ca exists to connect all of it — a platform where bands gain visibility, fans discover the next wave of heavy music, and street teams help amplify artists across Canada.</p>
+    <p>Not another generic music site. Not another empty social platform. A real ecosystem built specifically for Canada's underground heavy scene.</p>
+  </div>
+  <div class="story-stat-grid reveal">
+    <div class="stat-card"><div class="stat-num">500<span>+</span></div><div class="stat-label">Canadian Bands</div></div>
+    <div class="stat-card"><div class="stat-num">10<span>K</span></div><div class="stat-label">Scene Members</div></div>
+    <div class="stat-card"><div class="stat-num">12<span>+</span></div><div class="stat-label">Provinces Reached</div></div>
+    <div class="stat-card"><div class="stat-num">100<span>%</span></div><div class="stat-label">Independent Focus</div></div>
+  </div>
+</section>
+
+<!-- WHAT WE DO -->
+
+<section id="what">
+  <div class="what-header">
+    <div>
+      <div class="section-tag">What LoudMedia Does</div>
+      <h2 class="section-title">Built for Every Part<br>of the Scene</h2>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('bands',this)">For Bands</button>
+      <button class="tab" onclick="switchTab('fans',this)">For Fans</button>
+      <button class="tab" onclick="switchTab('street',this)">Street Teams</button>
+    </div>
+  </div>
+  <div id="panel-bands" class="panel active">
+    <div class="feature-card reveal"><span class="feature-icon">🎸</span><div class="feature-title">Professional Media Kits</div><p class="feature-desc">Build polished, label-quality media kits that get you taken seriously by venues, promoters, and press.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">📡</span><div class="feature-title">Features & Playlists</div><p class="feature-desc">Submit your music for editorial features, curated playlists, and scene spotlights that reach real fans.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">💰</span><div class="feature-title">Grants & Funding</div><p class="feature-desc">Access curated guides on Canadian music grants, funding opportunities, and resources usually locked behind labels.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">📈</span><div class="feature-title">Visibility Tracking</div><p class="feature-desc">Track your engagement, reach, and momentum across the LoudMedia ecosystem with real analytics.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🤝</span><div class="feature-title">Connect with Street Teams</div><p class="feature-desc">Get matched with dedicated fans who will promote your shows, share your music, and build your local following.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🚀</span><div class="feature-title">Premium Promo Tools</div><p class="feature-desc">Unlock promo templates, social toolkits, and campaign guides designed for the heavy music space.</p></div>
+  </div>
+  <div id="panel-fans" class="panel">
+    <div class="feature-card reveal"><span class="feature-icon">🔍</span><div class="feature-title">Discover New Bands</div><p class="feature-desc">Find emerging Canadian rock and metal acts before they blow up.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🎵</span><div class="feature-title">Underground Playlists</div><p class="feature-desc">Dig into curated playlists of underground releases, genre-specific drops, and scene highlights.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">📍</span><div class="feature-title">Local Shows & Festivals</div><p class="feature-desc">Never miss a local show again — discover gigs, festivals, and scene events happening near you.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🗞️</span><div class="feature-title">Scene News & Interviews</div><p class="feature-desc">Stay up to date with scene news, band interviews, album reviews, and exclusive underground content.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🎮</span><div class="feature-title">Interactive Features</div><p class="feature-desc">Engage through games, polls, community challenges, and interactive content.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">💬</span><div class="feature-title">Community & Discord</div><p class="feature-desc">Join discussions, Discord events, and a real community of Canadian heavy music fans.</p></div>
+  </div>
+  <div id="panel-street" class="panel">
+    <div class="feature-card reveal"><span class="feature-icon">📣</span><div class="feature-title">Social Sharing Campaigns</div><p class="feature-desc">Get access to coordinated campaigns to amplify bands you love.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🎟️</span><div class="feature-title">Show Promotion</div><p class="feature-desc">Help promote local shows, sell tickets, and build buzz in your city.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🏆</span><div class="feature-title">Earn Rewards & Perks</div><p class="feature-desc">Contributors earn recognition, exclusive rewards, merch, and VIP perks.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">🎯</span><div class="feature-title">Community Missions</div><p class="feature-desc">Complete missions, unlock achievements, and level up your impact.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">📲</span><div class="feature-title">Content Amplification</div><p class="feature-desc">Help bands go viral with coordinated content drops and fan-driven amplification tools.</p></div>
+    <div class="feature-card reveal"><span class="feature-icon">⚡</span><div class="feature-title">Real Influence</div><p class="feature-desc">Your activity shapes what gets featured. Active street team members have direct influence on the platform.</p></div>
+  </div>
+</section>
+
+<!-- ANNOUNCEMENTS -->
+
+<section id="announcements">
+  <div class="section-tag reveal">Latest News</div>
+  <h2 class="section-title reveal">Announcements</h2>
+  <div class="announce-grid">
+    <div class="announce-card featured reveal">
+      <div class="announce-tag">🔥 Featured — Platform Launch</div>
+      <div class="announce-title">LoudMedia.ca Goes Live — Submissions Now Open for Canadian Bands</div>
+      <p class="announce-body">After months of development, LoudMedia is officially open. Canadian independent rock and metal artists can now submit their bands, build media kits, and connect with the growing community. Starting in Alberta and expanding nationally.</p>
+      <div class="announce-date">May 2025 — LoudMedia Editorial Team</div>
+    </div>
+    <div class="announce-card reveal">
+      <div class="announce-tag">🎸 Scene Spotlight</div>
+      <div class="announce-title">Alberta Underground Roundup: 10 Bands You Need to Hear</div>
+      <p class="announce-body">Our first editorial deep dive into Alberta's thriving underground heavy scene.</p>
+      <div class="announce-date">April 2025</div>
+    </div>
+    <div class="announce-card reveal">
+      <div class="announce-tag">🏴 Street Teams</div>
+      <div class="announce-title">Street Team Beta Program Now Accepting Applications</div>
+      <p class="announce-body">We're building our founding street team network. Apply now to earn early adopter status and exclusive rewards.</p>
+      <div class="announce-date">March 2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKETS -->
+
+<section id="tickets">
+  <div class="section-tag reveal">Upcoming Shows</div>
+  <h2 class="section-title reveal">Get Tickets</h2>
+  <div class="tickets-grid">
+    <div class="ticket-card reveal">
+      <div class="ticket-venue">The Rec Room</div>
+      <div class="ticket-city">Calgary, AB</div>
+      <div class="ticket-date"><div class="ticket-day">14</div><div class="ticket-month-year">June<br>2025</div></div>
+      <div class="ticket-acts">LoudMedia Presents: Alberta Underground Night Vol.1</div>
+      <button class="ticket-btn">Get Tickets</button>
+    </div>
+    <div class="ticket-card reveal">
+      <div class="ticket-venue">Starlite Room</div>
+      <div class="ticket-city">Edmonton, AB</div>
+      <div class="ticket-date"><div class="ticket-day">21</div><div class="ticket-month-year">June<br>2025</div></div>
+      <div class="ticket-acts">Independent Metal Showcase — 5 Bands, One Night</div>
+      <button class="ticket-btn">Get Tickets</button>
+    </div>
+    <div class="ticket-card reveal">
+      <div class="ticket-venue">Dickens Pub</div>
+      <div class="ticket-city">Calgary, AB</div>
+      <div class="ticket-date"><div class="ticket-day">05</div><div class="ticket-month-year">July<br>2025</div></div>
+      <div class="ticket-acts">Heavy Summer Series — Rock & Metal Festival</div>
+      <button class="ticket-btn">Get Tickets</button>
+    </div>
+  </div>
+</section>
+
+<!-- VISION -->
+
+<section id="vision">
+  <div class="vision-content">
+    <div class="section-tag" style="justify-content:center;color:rgba(255,255,255,0.7);">Our Vision</div>
+    <h2 class="vision-title">Not Just Media.<br>Infrastructure.</h2>
+    <div class="vision-pillars">
+      <span class="pillar">Artists Support Artists</span>
+      <span class="pillar">Fans Become Advocates</span>
+      <span class="pillar">Communities Collaborate</span>
+      <span class="pillar">Resources Accessible to All</span>
+      <span class="pillar">Visibility Shared, Not Gatekept</span>
+    </div>
+    <a href="#" class="btn-primary" style="background:#080808;color:#fff;display:inline-block;">Join the Movement</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo">LOUD<span>MEDIA</span>.CA</div>
+      <p>Canada's Independent Rock & Metal Ecosystem. Building the digital backbone for independent Canadian heavy music — starting in Alberta, expanding nationwide.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="#">For Bands</a><a href="#">For Fans</a><a href="#">Street Teams</a><a href="#">Submit Your Band</a><a href="#">Media Kit Builder</a>
+    </div>
+    <div class="footer-col">
+      <h4>Scene</h4>
+      <a href="#">News & Features</a><a href="#">Upcoming Shows</a><a href="#">Playlists</a><a href="#">Interviews</a><a href="#">Grants Guide</a>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <a href="#">Discord</a><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Facebook</a><a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 LoudMedia.ca — Making Canadian Rock & Metal Louder</p>
+    <div class="social-links">
+      <a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Discord</a><a href="#">Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   ANIMATED BACKGROUND — Canvas Engine
+   Particles · Lightning · Sound Rings · Embers
+   ══════════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, mouse = { x: -999, y: -999 };
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = document.body.scrollHeight;
+  }
+  window.addEventListener('resize', resize);
+  window.addEventListener('scroll', resize); // grow with page
+  resize();
+
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY + window.scrollY; });
+
+  /* ── Colour helpers ── */
+  const RED   = 'rgba(232,0,13,';
+  const DKRED = 'rgba(154,0,9,';
+  const WITE  = 'rgba(240,237,232,';
+
+  /* ══ 1. FLOATING PARTICLES ══ */
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x  = Math.random() * W;
+      this.y  = init ? Math.random() * H : H + 10;
+      this.r  = Math.random() * 1.8 + 0.4;
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.vy = -(Math.random() * 0.6 + 0.2);
+      this.life = 0;
+      this.maxLife = Math.random() * 300 + 200;
+      this.color = Math.random() > 0.6 ? RED : DKRED;
+    }
+    update() {
+      // subtle attraction toward mouse
+      const dx = mouse.x - this.x, dy = mouse.y - this.y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if (dist < 200) {
+        this.vx += (dx/dist)*0.015;
+        this.vy += (dy/dist)*0.015;
+      }
+      this.vx *= 0.99;
+      this.vy *= 0.99;
+      this.x += this.vx;
+      this.y += this.vy;
+      this.life++;
+      if (this.life > this.maxLife || this.y < -10) this.reset(false);
+    }
+    draw() {
+      const alpha = Math.sin((this.life / this.maxLife) * Math.PI) * 0.7;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+      ctx.fillStyle = this.color + alpha + ')';
+      ctx.fill();
+    }
+  }
+
+  /* ══ 2. EMBERS (slow drifting sparks) ══ */
+  class Ember {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x  = Math.random() * W;
+      this.y  = init ? Math.random() * H : H + 5;
+      this.r  = Math.random() * 2.5 + 0.5;
+      this.vx = (Math.random() - 0.5) * 1.2;
+      this.vy = -(Math.random() * 1.5 + 0.3);
+      this.life = 0;
+      this.maxLife = Math.random() * 180 + 80;
+      this.hue = Math.random() > 0.5 ? 0 : 20; // red / orange
+    }
+    update() {
+      this.vx += (Math.random()-0.5)*0.08;
+      this.vy -= 0.01;
+      this.x += this.vx;
+      this.y += this.vy;
+      this.life++;
+      if (this.life > this.maxLife || this.y < -10) this.reset(false);
+    }
+    draw() {
+      const t = this.life / this.maxLife;
+      const alpha = (1 - t) * 0.9;
+      const grd = ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*2);
+      grd.addColorStop(0, `hsla(${this.hue},100%,70%,${alpha})`);
+      grd.addColorStop(1, `hsla(${this.hue},100%,40%,0)`);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r*2, 0, Math.PI*2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+    }
+  }
+
+  /* ══ 3. SOUND RINGS (concentric expanding circles) ══ */
+  class SoundRing {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.radius = 0;
+      this.maxRadius = Math.random() * 180 + 60;
+      this.speed = Math.random() * 1.2 + 0.5;
+      this.life = 0;
+      this.maxLife = this.maxRadius / this.speed;
+      this.color = Math.random() > 0.4 ? RED : DKRED;
+    }
+    update() {
+      this.radius += this.speed;
+      this.life++;
+      if (this.life > this.maxLife) this.reset();
+    }
+    draw() {
+      const t = this.life / this.maxLife;
+      const alpha = (1 - t) * 0.18;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+      ctx.strokeStyle = this.color + alpha + ')';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  /* ══ 4. LIGHTNING BOLTS ══ */
+  class Lightning {
+    constructor() { this.reset(); }
+    reset() {
+      this.active = false;
+      this.timer = Math.random() * 180 + 60; // frames until next bolt
+      this.segments = [];
+      this.alpha = 0;
+      this.fadeDir = 1;
+    }
+    trigger() {
+      this.active = true;
+      this.alpha = 1;
+      this.fadeDir = -1;
+      // build jagged path from top to somewhere
+      const sx = Math.random() * W;
+      const sy = 0;
+      const ex = sx + (Math.random()-0.5)*300;
+      const ey = Math.random() * H * 0.6 + H * 0.1;
+      this.segments = [];
+      let cx = sx, cy = sy;
+      const steps = Math.floor(Math.random()*8+6);
+      for (let i=0;i<=steps;i++) {
+        const t = i/steps;
+        const nx = sx + (ex-sx)*t + (Math.random()-0.5)*(120*(1-t));
+        const ny = sy + (ey-sy)*t;
+        this.segments.push({x:nx, y:ny});
+        cx=nx; cy=ny;
+      }
+    }
+    update() {
+      if (!this.active) {
+        this.timer--;
+        if (this.timer <= 0) this.trigger();
+        return;
+      }
+      this.alpha -= 0.04;
+      if (this.alpha <= 0) this.reset();
+    }
+    draw() {
+      if (!this.active || this.segments.length < 2) return;
+      // glow pass
+      ctx.save();
+      ctx.globalAlpha = this.alpha * 0.3;
+      ctx.strokeStyle = RED + '1)';
+      ctx.lineWidth = 8;
+      ctx.shadowColor = '#E8000D';
+      ctx.shadowBlur = 20;
+      ctx.beginPath();
+      ctx.moveTo(this.segments[0].x, this.segments[0].y);
+      for (let i=1;i<this.segments.length;i++) ctx.lineTo(this.segments[i].x, this.segments[i].y);
+      ctx.stroke();
+      // core
+      ctx.globalAlpha = this.alpha;
+      ctx.strokeStyle = WITE + '0.9)';
+      ctx.lineWidth = 1.5;
+      ctx.shadowBlur = 6;
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  /* ══ 5. GRID PULSE LINES ══ */
+  class GridLine {
+    constructor(vert) {
+      this.vert = vert; // vertical or horizontal
+      this.pos  = Math.random() * (vert ? W : H);
+      this.speed = (Math.random() * 0.3 + 0.1) * (Math.random()>0.5?1:-1);
+      this.alpha = Math.random() * 0.04 + 0.01;
+    }
+    update() {
+      this.pos += this.speed;
+      if (this.vert && (this.pos < 0 || this.pos > W)) this.speed *= -1;
+      if (!this.vert && (this.pos < 0 || this.pos > H)) this.speed *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.strokeStyle = RED + this.alpha + ')';
+      ctx.lineWidth = 1;
+      if (this.vert) {
+        ctx.moveTo(this.pos, 0);
+        ctx.lineTo(this.pos, H);
+      } else {
+        ctx.moveTo(0, this.pos);
+        ctx.lineTo(W, this.pos);
+      }
+      ctx.stroke();
+    }
+  }
+
+  /* ── Init objects ── */
+  const particles  = Array.from({length:120}, () => new Particle());
+  const embers     = Array.from({length:60},  () => new Ember());
+  const rings      = Array.from({length:12},  () => new SoundRing());
+  const bolts      = Array.from({length:4},   () => new Lightning());
+  const gridLines  = [
+    ...Array.from({length:8},  () => new GridLine(true)),
+    ...Array.from({length:6},  () => new GridLine(false)),
+  ];
+
+  /* ── Ambient red glow blob (slow drift) ── */
+  let blobX = W*0.6, blobY = H*0.3;
+  let blobVX = 0.4, blobVY = 0.25;
+
+  /* ── RENDER LOOP ── */
+  function frame() {
+    // clear with slight trail fade for motion blur effect
+    ctx.fillStyle = 'rgba(8,8,8,0.18)';
+    ctx.fillRect(0,0,W,H);
+
+    // ambient red radial glow
+    blobX += blobVX; blobY += blobVY;
+    if (blobX < W*0.2 || blobX > W*0.85) blobVX *= -1;
+    if (blobY < H*0.1 || blobY > H*0.85) blobVY *= -1;
+    const blob = ctx.createRadialGradient(blobX,blobY,0,blobX,blobY,W*0.45);
+    blob.addColorStop(0, 'rgba(154,0,9,0.09)');
+    blob.addColorStop(0.5,'rgba(232,0,13,0.04)');
+    blob.addColorStop(1,  'rgba(0,0,0,0)');
+    ctx.fillStyle = blob;
+    ctx.fillRect(0,0,W,H);
+
+    // draw layers
+    gridLines.forEach(g => { g.update(); g.draw(); });
+    rings.forEach(r  => { r.update(); r.draw(); });
+    particles.forEach(p => { p.update(); p.draw(); });
+    embers.forEach(e   => { e.update(); e.draw(); });
+    bolts.forEach(b    => { b.update(); b.draw(); });
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ══ AUDIO / PLAYER ══ */
+const audio   = document.getElementById('site-audio');
+const disc    = document.getElementById('disc');
+const playBtn = document.getElementById('play-btn');
+const waveform= document.getElementById('waveform');
+let playing = false;
+
+function setPlaying(state) {
+  playing = state;
+  playBtn.textContent = playing ? '⏸' : '▶';
+  disc.classList.toggle('paused', !playing);
+  waveform.classList.toggle('paused', !playing);
+}
+function togglePlay() {
+  if (playing) { audio.pause(); setPlaying(false); }
+  else { audio.play().then(()=>setPlaying(true)).catch(()=>setPlaying(false)); }
+}
+let autoplayDone = false;
+function tryAutoplay() {
+  if (autoplayDone) return; autoplayDone = true;
+  audio.play().then(()=>setPlaying(true)).catch(()=>{});
+}
+document.addEventListener('click', tryAutoplay, {once:true});
+document.addEventListener('keydown', tryAutoplay, {once:true});
+document.addEventListener('touchstart', tryAutoplay, {once:true});
+audio.play().then(()=>{setPlaying(true);autoplayDone=true;}).catch(()=>{});
+
+/* ══ TABS ══ */
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+/* ══ SCROLL REVEAL ══ */
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach((entry,i)=>{
+    if (entry.isIntersecting) {
+      setTimeout(()=>entry.target.classList.add('visible'), i*80);
+      observer.unobserve(entry.target);
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+/* ══ NAV SHRINK ══ */
+const nav = document.querySelector('nav');
+window.addEventListener('scroll',()=>{
+  nav.style.padding = window.scrollY > 60 ? '12px 48px' : '18px 48px';
+});
+</script>
+
+</body>
+</html>
